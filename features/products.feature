@@ -113,7 +113,7 @@ Scenario: Search by category
     And I should not see "Shoes" in the results
     And I should not see "Sheets" in the results
 
-Scenario: Search by available
+Scenario: Search by availability
     When I visit the "Home Page"
     And I press the "Clear" button
     And I select "True" in the "Available" dropdown
