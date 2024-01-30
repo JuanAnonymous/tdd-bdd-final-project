@@ -205,3 +205,42 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(found.count(), count)
         for product in found:
             self.assertAlmostEqual(product.price, price)
+
+    def test_deserialize_invalid_boolean(self):
+        """It should raise DataValidationError for invalid boolean data"""
+        data = {
+            "name": "Test Product",
+            "description": "A product for testing",
+            "price": "10.99",
+            "available": "yes",  # Invalid boolean
+            "category": "ELECTRONICS"
+        }
+        product = Product()
+        with self.assertRaises(DataValidationError):
+            product.deserialize(data)
+
+    def test_deserialize_missing_key(self):
+        """It should raise DataValidationError for missing key"""
+        data = {
+            "name": "Test Product",
+            "description": "A product for testing",
+            # Missing "price" key
+            "available": True,
+            "category": "ELECTRONICS"
+        }
+        product = Product()
+        with self.assertRaises(DataValidationError):
+            product.deserialize(data)
+
+    def test_deserialize_invalid_category(self):
+        """It should raise DataValidationError for invalid category"""
+        data = {
+            "name": "Test Product",
+            "description": "A product for testing",
+            "price": "10.99",
+            "available": True,
+            "category": "INVALID_CATEGORY"  # Invalid category
+        }
+        product = Product()
+        with self.assertRaises(DataValidationError):
+            product.deserialize(data)
